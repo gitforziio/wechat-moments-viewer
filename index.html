@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>viewer</title>
+    <style type="text/css">
+        body{font-size: 10px;}
+    </style>
 </head>
 <body>
 <div class="bodywrap" id="bodywrap">
@@ -28,13 +31,24 @@
 <div>
     <div v-for="moment in moments">
         <hr />
-        <p><span :data-moment-username="moment.username">{{moment.nickname}}</span> 在 <span>{{moment.createtime}} 发布：</span></p>
-        <div><p v-if="moment.contentDesc" :data-moment-contentDescScene="moment.contentDescScene" :data-moment-isPrivate="moment.isPrivate">{{moment.contentDesc}}</p></div>
-        <p v-if="moment.sourceNickName"><span>来自「{{moment.sourceNickName}}」</span></p>
+        <p><span :title="moment.username">{{moment.nickname}}</span> 在 <span>{{moment.createtime}}</span> 发布：</p>
+        <div>
+            <p v-if="moment.contentDesc" :data-moment-contentDescScene="moment.contentDescScene" :data-moment-isPrivate="moment.isPrivate">{{moment.contentDesc}}</p>
+            <p v-if="moment.contentObj.title"><a :href="moment.contentObj.linkUrl">{{moment.contentObj.title}}</a></p>
+            <p v-if="moment.contentObj.mediaList" v-for="media in moment.contentObj.mediaList"><video v-if="moment.contentObj.type==15" width="320" controls><source :src="media.dataUrl" type="video/mp4" /></video><img v-if="moment.contentObj.type==1||moment.contentObj.type==3" :src="media.dataUrl"><span>{{media.imgSize}}</span></p>
+            <p v-if="moment.contentObj.desc"><span>{{moment.contentObj.desc}}</span></p>
+            <p v-if="moment.sourceNickName"><span>来自「{{moment.sourceNickName}}」</span></p>
+            <p>type: <span>{{moment.contentObj.type}}</span></p>
+        </div>
         <p><span>点赞数: {{moment.realLikeCount}}</span><span v-if="moment.realCommentCount"> | </span><span v-if="moment.realCommentCount">评论数: {{moment.realCommentCount}}</span><span v-if="moment.withCount"> | </span><span v-if="moment.withCount">提及数: {{moment.withCount}}</span></p>
         <p v-if="moment.withUsers.length">提及的人有：<span v-for="user in moment.withUsers" :title="user.username" :data-with-createtime="user.createTime">「{{user.nickname}}」</span></p>
         <p v-if="moment.likeUsers.length">点赞的人有：<span v-for="user in moment.likeUsers" :title="user.username" :data-like-createtime="user.createTime">「{{user.nickname}}」</span></p>
         <p v-if="moment.commentUsers.length">具体评论有：</p>
+        <div v-for="comment in moment.commentUsers">
+            <p><span :title="comment.username">「{{comment.nickname}}」</span><span>[{{comment.commentID}}]</span> 在 <span>{{comment.createTime}}</span> <span v-if="comment.refUserName">对 <span :data-comment-refUserName="comment.refUserName">[{{comment.refCommentID}}]</span></span> 说道：</p>
+            <p>{{comment.content}}</p>
+            <div v-if="comment.snsEmojiInfoObj"><div v-if="comment.snsEmojiInfoObj.emojiInfoObj"><img :src="decodeEmojiBase64(comment.snsEmojiInfoObj)" /></div></div>
+        </div>
         <hr />
     </div>
 </div>

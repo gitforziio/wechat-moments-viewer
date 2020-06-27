@@ -51,6 +51,18 @@ var the_vue = new Vue({
                 self.moments = JSON.parse(this.result).sort((a, b) => b.createtime - a.createtime);
             }
         },
+        decodeEmojiBase64: function(obj) {
+            let result = "";
+            if (obj.hasOwnProperty('emojiInfoObj')) {
+                if (obj.emojiInfoObj.hasOwnProperty('NS.data')) {
+                    result = obj.emojiInfoObj['NS.data'].replace(/-/g, '+').replace(/_/g, '/');
+                    result = atob(result);
+                    result = result.match(/http:\/\/emoji\.qpic\.cn\/wx_emoji\/[^\/]+\//)[0];
+                    // console.log(result);
+                };
+            };
+            return result;
+        },
     },
     mounted() {
         let self = this;
