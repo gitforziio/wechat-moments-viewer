@@ -35,7 +35,7 @@
         <div>
             <p v-if="moment.contentDesc" :data-moment-contentDescScene="moment.contentDescScene" :data-moment-isPrivate="moment.isPrivate">{{moment.contentDesc}}</p>
             <p v-if="moment.contentObj.title"><a :href="moment.contentObj.linkUrl">{{moment.contentObj.title}}</a></p>
-            <p v-if="moment.contentObj.mediaList" v-for="media in moment.contentObj.mediaList"><video v-if="moment.contentObj.type==15" width="320" controls><source :src="media.dataUrl" type="video/mp4" /></video><img v-if="moment.contentObj.type==1||moment.contentObj.type==3" :src="media.dataUrl"><span>{{media.imgSize}}</span></p>
+            <p v-if="moment.contentObj.mediaList" v-for="media in moment.contentObj.mediaList"><video v-if="moment.contentObj.type==15" width="320" controls><source :src="media.dataUrl" type="video/mp4" /></video><span v-if="moment.contentObj.type==1||moment.contentObj.type==3333">图片（{{media.imgSize}}）链接： <a>{{media.dataUrl}}</a></span></p>
             <p v-if="moment.contentObj.desc"><span>{{moment.contentObj.desc}}</span></p>
             <p v-if="moment.sourceNickName"><span>来自「{{moment.sourceNickName}}」</span></p>
             <p>type: <span>{{moment.contentObj.type}}</span></p>
