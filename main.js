@@ -51,6 +51,14 @@ var the_vue = new Vue({
                 self.moments = JSON.parse(this.result).sort((a, b) => b.createtime - a.createtime);
             }
         },
+        dealTime: function(timestamp) {
+            let date = new Date((+timestamp)*1000 + 8 * 3600 * 1000);
+            let timetext = date.toJSON().substr(0, 19).replace('T', ' ');
+            return timetext;
+        },
+        dealMsg: function(msg) {
+            return msg.replace(/\n/g, '<br />');
+        },
         decodeEmojiBase64: function(obj) {
             let result = "";
             if (obj.hasOwnProperty('emojiInfoObj')) {

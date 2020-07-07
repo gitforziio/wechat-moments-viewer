@@ -31,7 +31,7 @@
 <div>
     <div v-for="moment in moments">
         <hr />
-        <p><span :title="moment.username">{{moment.nickname}}</span> 在 <span>{{moment.createtime}}</span> 发布：</p>
+        <p><span :title="moment.username">{{moment.nickname}}</span> 在 <span>{{dealTime(moment.createtime)}}</span> 发布：</p>
         <div>
             <p v-if="moment.contentDesc" :data-moment-contentDescScene="moment.contentDescScene" :data-moment-isPrivate="moment.isPrivate">{{moment.contentDesc}}</p>
             <p v-if="moment.contentObj.title"><a :href="moment.contentObj.linkUrl">{{moment.contentObj.title}}</a></p>
@@ -41,11 +41,11 @@
             <p>type: <span>{{moment.contentObj.type}}</span></p>
         </div>
         <p><span>点赞数: {{moment.realLikeCount}}</span><span v-if="moment.realCommentCount"> | </span><span v-if="moment.realCommentCount">评论数: {{moment.realCommentCount}}</span><span v-if="moment.withCount"> | </span><span v-if="moment.withCount">提及数: {{moment.withCount}}</span></p>
-        <p v-if="moment.withUsers.length">提及的人有：<span v-for="user in moment.withUsers" :title="user.username" :data-with-createtime="user.createTime">「{{user.nickname}}」</span></p>
-        <p v-if="moment.likeUsers.length">点赞的人有：<span v-for="user in moment.likeUsers" :title="user.username" :data-like-createtime="user.createTime">「{{user.nickname}}」</span></p>
+        <p v-if="moment.withUsers.length">提及的人有：<span v-for="user in moment.withUsers" :title="user.username" :data-with-createtime="dealTime(user.createTime)">「{{user.nickname}}」</span></p>
+        <p v-if="moment.likeUsers.length">点赞的人有：<span v-for="user in moment.likeUsers" :title="user.username" :data-like-createtime="dealTime(user.createTime)">「{{user.nickname}}」</span></p>
         <p v-if="moment.commentUsers.length">具体评论有：</p>
         <div v-for="comment in moment.commentUsers">
-            <p><span :title="comment.username">「{{comment.nickname}}」</span><span>[{{comment.commentID}}]</span> 在 <span>{{comment.createTime}}</span> <span v-if="comment.refUserName">对 <span :data-comment-refUserName="comment.refUserName">[{{comment.refCommentID}}]</span></span> 说道：</p>
+            <p><span :title="comment.username">「{{comment.nickname}}」</span><span>[{{comment.commentID}}]</span> 在 <span>{{dealTime(comment.createTime)}}</span> <span v-if="comment.refUserName">对 <span :data-comment-refUserName="comment.refUserName">[{{comment.refCommentID}}]</span></span> 说道：</p>
             <p>{{comment.content}}</p>
             <div v-if="comment.snsEmojiInfoObj"><div v-if="comment.snsEmojiInfoObj.emojiInfoObj"><img :src="decodeEmojiBase64(comment.snsEmojiInfoObj)" /></div></div>
         </div>
